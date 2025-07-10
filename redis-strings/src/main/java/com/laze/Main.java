@@ -1,17 +1,36 @@
 package com.laze;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import lombok.extern.slf4j.Slf4j;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.Pipeline;
+
+@Slf4j
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        try (JedisPool jedisPool = new JedisPool("127.0.0.1", 6379)) {
+            try(Jedis jedis = jedisPool.getResource()) {
+                jedis.set("users:300:name", "kim");
+                jedis.set("users:300:email", "kim@email.com");
+                jedis.set("users:300:age", "30");
+
+                jedis.mget("users:300:name", "users:300:email", "users:300:age").forEach(log::info);
+
+                jedis.incr("counter");
+                jedis.incrBy("counter", 10);
+                jedis.decr("counter");
+                jedis.decrBy("counter", 5);
+
+                Pipeline pipeline = jedis.pipelined();
+                pipeline.set("users:400:name", "lee");
+                pipeline.set("users:400:email", "lee@email.com");
+                pipeline.set("users:400:age", "400");
+                pipeline.syncAndReturnAll();
+
+                jedis.mget("users:400:name", "users:400:email", "users:400:age").forEach(log::info);
+
+            }
         }
     }
 }
