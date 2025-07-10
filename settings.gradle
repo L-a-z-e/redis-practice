@@ -1,1 +1,3 @@
 rootProject.name = 'redis-practice'
+
+include 'redis-strings'
