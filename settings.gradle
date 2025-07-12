@@ -2,3 +2,5 @@ rootProject.name = 'redis-practice'
 
 include 'redis-strings'
 include 'redis-list-set'
+include 'redis-hash'
+include 'redis-sorted-set'
