@@ -1,5 +1,6 @@
 package com.laze.springbootcache.controller;
 
+import com.laze.springbootcache.domain.entity.RedisHashUser;
 import com.laze.springbootcache.domain.entity.User;
 import com.laze.springbootcache.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,13 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/users/{id}")
-    User getUser(@PathVariable Long id) {
+    public User getUser3(@PathVariable Long id) {
         return userService.getUser(id);
     }
+
+    @GetMapping("/redishash-users/{id}")
+    public RedisHashUser getUser2(@PathVariable Long id) {
+        return userService.getUser2(id);
+    }
+
 }
