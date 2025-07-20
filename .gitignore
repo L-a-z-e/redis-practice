@@ -35,3 +35,22 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# Grafana runtime data
+grafana/data/
+grafana/data/**
+
+# Prometheus runtime data
+prometheus/data/
+prometheus/data/**
+
+# Only allow prometheus.yml to remain
+!prometheus/config/
+!prometheus/config/prometheus.yml
+
+# Optional: exclude Grafana DB if accidentally tracked
+grafana/data/grafana.db
+
+# Plugins (usually downloaded at runtime)
+grafana/data/plugins/
+grafana/data/plugins/**
